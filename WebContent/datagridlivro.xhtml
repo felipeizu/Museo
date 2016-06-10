@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title></title>
+</h:head>
+<h:body>
+	<h:form id="form">
+	
+				<div class="bordo tam-bordo">
+				<p:spacer width="200" height="0" />
+					<h:inputText id="keyword" value="#{dataGridView.busca}"
+						required="false" style="width: 450px; height: 29px;" />
+						
+					<p:watermark for="keyword" value="Digite o que você procura"
+						id="watermark" />
+				
+				<p:commandButton id="regular"
+					actionListener="#{dataGridView.buscarLivro( dataGridView.busca )}"
+					value="Pesquisa" ajax="false" icon="ui-icon-search" />
+				</div>
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+					<p:outputLabel for="pesquisa" value="Parâmetro de pesquisa:" />
+					<p:selectOneRadio id="pesquisa" value="#{dataGridView.parametroPesquisa}" >
+						<f:selectItem itemLabel="Título" itemValue="Título" />
+						<f:selectItem itemLabel="Categoria" itemValue="Categoria"/>
+						<f:selectItem itemLabel="Autor" itemValue="Autor" />
+						<f:selectItem itemLabel="Editora" itemValue="Editora"/>
+					</p:selectOneRadio>
+				</h:panelGrid>
+	
+	
+		<p:dataGrid var="livro" value="#{dataGridView.livros}" columns="3"
+			layout="tabular" rows="12" paginator="true" id="livros"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="6,12,16" styleClass="">
+			<!--<f:facet name="header">
+				   Venda de Produtos 
+			</f:facet>-->
+
+			<p:panel header="#{livro.id}" style="text-align:center">
+				<h:panelGrid columns="1" style="width:100%">
+					<p:graphicImage value="/imagens/livros/#{livro.imagem}"
+						style="width:200px" height="150px" />
+					<h:outputText value="Nome: #{livro.titulo}" />
+					<h:outputText value="R$: #{livro.preco}" />
+
+					<!-- Botão Details -->
+					<p:commandLink update=":form:produtoDetail"
+						oncomplete="PF('produtoDialog').show()" title="View Detail">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:setPropertyActionListener value="#{livro}"
+							target="#{dataGridView.selectedLivro}" />
+					</p:commandLink>
+					<!-- Botão Carrinho -->
+					<p:growl id="growl" life="2000" />
+					<p:commandButton value="Adicionar ao Carrinho"
+						style="font-size:70%" id="withIcon"
+						actionListener="#{carrinhoMB.adicionaLivro(livro)}" update="growl"
+						icon="ui-icon-plusthick">
+
+					</p:commandButton>
+
+				</h:panelGrid>
+			</p:panel>
+
+		</p:dataGrid>
+
+		<p:dialog header="Informações do Livro" widgetVar="produtoDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="produtoDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty dataGridView.selectedLivro}"
+					columnClasses="label,value">
+					<f:facet name="header">
+						<p:graphicImage
+							value="/imagens/livros/#{dataGridView.selectedLivro.imagem}"
+							style="width:200px" height="150px" />
+
+					</f:facet>
+
+					<h:outputText value="Titulo:" />
+					<h:outputText value="#{dataGridView.selectedLivro.titulo}" />
+
+					<h:outputText value="ISBN:" />
+					<h:outputText value="#{dataGridView.selectedLivro.isbn}" />
+
+					<h:outputText value="Assunto:" />
+					<h:outputText value="#{dataGridView.selectedLivro.assunto}" />
+
+					<h:outputText value="Idioma:" />
+					<h:outputText value="#{dataGridView.selectedLivro.idioma}" />
+					
+					<p:commandButton value="Adicionar ao Carrinho" style="font-size:70%"
+					id="withIcon"
+					actionListener="#{carrinhoMB.adicionaLivro(dataGridView.selectedLivro)}"
+					update="growl" icon="ui-icon-plusthick">
+				</p:commandButton>
+				
+				<p:commandButton value="Mais Detalhes" style="font-size:70%"
+					id="maisdetalhes"
+					action="informacoes.xhtml"
+					update="growl" icon="ui-icon-plusthick">
+					
+					<f:setPropertyActionListener target="#{dataGridView.selectedLivro}" value="#{dataGridView.selectedLivro}" 
+					/>
+							
+				</p:commandButton>
+				</p:panelGrid>
+				
+				<p:growl id="growl" life="2000" />
+				
+
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

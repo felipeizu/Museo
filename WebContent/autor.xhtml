@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Autor</title>
+		<link rel="stylesheet" type="text/css" href="css\design.css" />
+</h:head>
+<h:body>
+	<div id="autor" class="formulario">
+
+		<h:form id="form" enctype="multipart/form-data" dir="biografias">
+			<p:growl id="msgs" showDetail="true" />
+
+			<h:outputLabel>
+				<div class="bordo tam-bordo">
+				<h1 class="letrabranca">Dados do Autor</h1>
+				</div>
+			</h:outputLabel>
+
+			<!-- Campos -->
+			<h:panelGrid id="grid" columns="3" cellpadding="5">
+
+				<!-- <p:outputLabel for="id" value="ID:" />
+				<p:inputText id="id" value="#{autorMB.objAtual.id}" disabled="true" />
+				<p:message for="id" />  -->
+
+				<p:outputLabel for="nome" value="Nome:" />
+				<p:inputText id="nome" value="#{autorMB.objAtual.nome}"
+					required="true">
+					<f:validateRegex
+						pattern="^([a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ 0-9 \s\.]+|[ 0-9 ]+[ a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ])" />
+				</p:inputText>
+				<p:message for="nome" />
+
+				<p:outputLabel for="datanasc" value="Data de Nascimento:" />
+				<p:calendar id="datanasc" value="#{autorMB.objAtual.datanasc}"
+					pattern="dd/MM/yyyy" mask="true"/>
+				<p:message for="datanasc" />
+
+				<p:outputLabel for="datafale" value="Data de Falecimento:" />
+				<p:calendar id="datafale" value="#{autorMB.objAtual.datafale}"
+					pattern="dd/MM/yyyy" mask="true" />
+				<p:message for="datafale" />
+
+				<p:outputLabel for="localmorte" value="Local da Morte:" />
+				<p:inputText id="localmorte" value="#{autorMB.objAtual.localmorte}">
+					<f:validateRegex
+						pattern="^([a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ 0-9 \s\.]+|[ 0-9 ]+[ a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ])" />
+				</p:inputText>
+				<p:message for="localmorte" />
+
+				<p:outputLabel for="biografia" value="Biografia:" />
+				<h:inputTextarea id="biografia" rows="20" cols="50"
+										value="#{autorMB.objAtual.biografia}" />
+				<h:message for="biografia" />
+
+			</h:panelGrid>
+
+			<!-- Botoes -->
+
+			<p:commandButton actionListener="#{autorMB.inclui()}"
+				value="btnIncluir" update="growl" icon="ui-icon-plusthick"
+				id="inclui" ajax="updade grid">
+			</p:commandButton>
+
+			<p:commandButton actionListener="#{autorMB.pesquisar()}"
+				value="btnPesquisar" update="growl" icon="ui-icon-search"
+				id="pesquisar" ajax="updade grid">
+			</p:commandButton>
+
+
+			<h:panelGrid id="grid2"
+				rendered="#{autorMB.listaPesquisa.size() > 0}">
+
+				<!-- Lista de pesquisados -->
+				<p:dataTable id="tabl" var="autor" value="#{autorMB.listaPesquisa}"
+					editable="true">
+
+					<f:facet name="header">
+                     Autores Pesquisados
+                    </f:facet>
+
+					<!-- Controle de tupla  -->
+					<p:ajax event="rowEdit" listener="#{autorMB.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel" listener="#{autorMB.onRowCancel}"
+						update=":form:msgs" />
+
+
+					<p:column headerText="Id">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.id}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{autor.id}"
+									style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Nome">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.nome}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{autor.nome}" required="true"
+									style="width:100%">
+									<f:validateRegex
+										pattern="^([a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ 0-9 \s\.]+|[ 0-9 ]+[ a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ])" />
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Data de Nascimento">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.datanasc}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+										timeZone="americas/Sao_Paulo" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{autor.datanasc}" style="width:100%">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+										timeZone="americas/Sao_Paulo" />
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Data de Falecimento">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.datafale}">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+										timeZone="americas/Sao_Paulo" />
+								</h:outputText>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{autor.datafale}" style="width:100%">
+									<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"
+										timeZone="americas/Sao_Paulo" />
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Local da Morte">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.localmorte}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{autor.localmorte}" style="width:100%">
+									<f:validateRegex
+										pattern="^([a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ 0-9 \s\.]+|[ 0-9 ]+[ a-zA-Z çÇáàãâÁÀÃÂÕÔÓÒõôóòéèêÉÈÊÍÌÎíìîúùûÙÚÛ])" />
+								</p:inputText>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Biografia">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{autor.biografia}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{autor.biografia}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+
+					<p:column style="width:35px" headerText="Alt">
+						<p:rowEditor update="tabl" />
+					</p:column>
+
+					<p:column headerText="Exclui">
+						<p:commandButton actionListener="#{autorMB.exclui(autor)}"
+							value="Exclui" update="form" icon="ui-icon-plusthick"
+							id="btnExclui">
+
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGrid>
+
+		</h:form>
+	</div>
+</h:body>
+</html>
