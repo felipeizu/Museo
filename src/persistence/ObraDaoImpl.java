@@ -12,7 +12,7 @@ import connection.GenericConnection;
 import exception.EditoraDaoException;
 import exception.GenericException;
 import model.Autor;
-import model.Livro;
+import model.Obra;
 
 /**
  * 
@@ -20,18 +20,18 @@ import model.Livro;
  *
  */
 
-public class LivroDaoImpl implements LivroDao {
+public class ObraDaoImpl implements ObraDao {
 	private Connection c;
 	private AutorDao autorDao;
 	private EditoraDao editoraDao;
 
-	public LivroDaoImpl() {
+	public ObraDaoImpl() {
 		GenericConnection gc = new ConnectionImpl();
 		c = gc.getConnection();
 	}
 
 	@Override
-	public void inclui(Livro l) throws GenericException, SQLException {
+	public void inclui(Obra l) throws GenericException, SQLException {
 
 		String query = "INSERT INTO autor VALUES (?,?,?,?,?,?,?,?,?,?,?)"; // ?
 		PreparedStatement ps = c.prepareStatement(query);
@@ -54,8 +54,8 @@ public class LivroDaoImpl implements LivroDao {
 	}
 
 	@Override
-	public List<Livro> pesquisa(Livro l) throws GenericException, SQLException {
-		List<Livro> lista = new ArrayList<Livro>();
+	public List<Obra> pesquisa(Obra l) throws GenericException, SQLException {
+		List<Obra> lista = new ArrayList<Obra>();
 		String query = "SELECT * FROM livro";
 
 		PreparedStatement ps = c.prepareStatement(query);
@@ -65,7 +65,7 @@ public class LivroDaoImpl implements LivroDao {
 		editoraDao = new EditoraDaoImpl();
 
 		while (rs.next()) {
-			Livro li = new Livro();
+			Obra li = new Obra();
 			li.setId(rs.getInt("id"));
 			li.setAutor(pesquisaInnerAutor(li));
 			li.setEditora(editoraDao.pesquisaId(rs.getInt("ideditora")));
@@ -90,7 +90,7 @@ public class LivroDaoImpl implements LivroDao {
 		return lista;
 	}
 
-	public List<Autor> pesquisaInnerAutor(Livro li) throws SQLException {
+	public List<Autor> pesquisaInnerAutor(Obra li) throws SQLException {
 
 		List<Autor> lista = new ArrayList<Autor>();
 		String query = "SELECT livro.id, livro.titulo, autor.id as idautor, autor.nome as nome, autor.datanasc as nasc, autor.biografia "
@@ -137,8 +137,8 @@ public class LivroDaoImpl implements LivroDao {
 		return lista;
 	}
 
-	public List<Livro> pesquisaEditora(Livro livro) throws GenericException, SQLException {
-		List<Livro> lista = new ArrayList<Livro>();
+	public List<Obra> pesquisaEditora(Obra livro) throws GenericException, SQLException {
+		List<Obra> lista = new ArrayList<Obra>();
 
 		String query = "select liv.id, liv.titulo " + "from livro liv " + "inner join editora ed"
 				+ " on liv.ideditora = ed.id " + "where ed.id = ? " + "order by ed.id";
@@ -152,7 +152,7 @@ public class LivroDaoImpl implements LivroDao {
 		editoraDao = new EditoraDaoImpl();
 
 		while (rs.next()) {
-			Livro li = new Livro();
+			Obra li = new Obra();
 			li.setId(rs.getInt("id"));
 			// li.setAutor(autorDao.pesquisaId(rs.getInt("idautor")));
 			li.setEditora(editoraDao.pesquisaId(rs.getInt("ideditora")));
@@ -177,7 +177,7 @@ public class LivroDaoImpl implements LivroDao {
 	// pesquisaAutor
 
 	@Override
-	public void altera(Livro l) throws EditoraDaoException, SQLException {
+	public void altera(Obra l) throws EditoraDaoException, SQLException {
 		String sql = "UPDATE livro SET idautor = ?, ideditora = ?, titulo = ?,"
 				+ "isbn = ?, paginas = ?, edicao = ?, tipoca = ?, ano = ?," + "assunto = ?, idioma = ?, preco = ?"
 				+ "WHERE id = ?";
@@ -202,7 +202,7 @@ public class LivroDaoImpl implements LivroDao {
 	}
 
 	@Override
-	public void exclui(Livro l) throws GenericException, SQLException {
+	public void exclui(Obra l) throws GenericException, SQLException {
 		String query = "DELETE livro where id = ?";
 		PreparedStatement ps = c.prepareStatement(query);
 

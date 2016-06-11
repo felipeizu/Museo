@@ -7,9 +7,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import control.LivroMB;
+import control.ObraMB;
 import exception.GenericException;
-import model.Livro;
+import model.Obra;
 import persistence.PesquisaDaoImpl;
 
 
@@ -19,39 +19,34 @@ import persistence.PesquisaDaoImpl;
 public class DataGridView implements Serializable {
 	private static final long serialVersionUID = 7659498095569980364L;
 
-	private List<Livro> livros;
-	private Livro selectedLivro;
+	private List<Obra> obras;
+	private Obra selectedObra;
 	private String busca;
-	private int categoria;
 	private String parametroPesquisa;
 
-	@ManagedProperty("#{livroMB}")
-	private LivroMB livromb;
+	@ManagedProperty("#{obraMB}")
+	private ObraMB obramb;
 
 	@PostConstruct
 	public void init() {
 		// primeira pagina
 		try {
-			livros = livromb.pesquisar();
-		//	System.out.println(livros.size());
+			obras = obramb.pesquisar();
+		//	System.out.println(obras.size());
 		} catch (GenericException | SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void buscarLivro(String parametro) {
+	public void buscarObra(String parametro) {
 		PesquisaDaoImpl p = new PesquisaDaoImpl();
 		try {
 			if (parametroPesquisa.equalsIgnoreCase("título")) {
-				livros = p.pesquisaPorTitulo(parametro);
+				obras = p.pesquisaPorTitulo(parametro);
 			}else if (parametroPesquisa.equalsIgnoreCase("autor")) {
-				livros = p.pesquisaPorAutor(parametro);
-			}else if (parametroPesquisa.equalsIgnoreCase("editora")) {
-				livros = p.pesquisaPorEditora(parametro);
-			}else if (parametroPesquisa.equalsIgnoreCase("categoria")) {
-				livros = p.pesquisaPorCategoria(parametro);
+				obras = p.pesquisaPorAutor(parametro);
 			}else{
-				livros = p.pesquisaPorTitulo(parametro);
+				obras = p.pesquisaPorTitulo(parametro);
 			}
 			
 		} catch (GenericException e) {
@@ -63,36 +58,19 @@ public class DataGridView implements Serializable {
 	
 	public String pagPrincipal() {
 		try {
-			livros = livromb.pesquisar();
+			obras = obramb.pesquisar();
 		} catch (GenericException | SQLException e) {
 			e.printStackTrace();
 		}
 		return "index";
 	}
-	
 
-	public List<Livro> getLivros() {
-		return livros;
+	public List<Obra> getObras() {
+		return obras;
 	}
 
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
-	}
-
-	public Livro getSelectedLivro() {
-		return selectedLivro;
-	}
-
-	public void setSelectedLivro(Livro selectedLivro) {
-		this.selectedLivro = selectedLivro;
-	}
-
-	public LivroMB getLivromb() {
-		return livromb;
-	}
-
-	public void setLivromb(LivroMB livromb) {
-		this.livromb = livromb;
+	public void setObras(List<Obra> obras) {
+		this.obras = obras;
 	}
 
 	public String getBusca() {
@@ -103,14 +81,6 @@ public class DataGridView implements Serializable {
 		this.busca = busca;
 	}
 
-	public int getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(int categoria) {
-		this.categoria = categoria;
-	}
-
 	public String getParametroPesquisa() {
 		return parametroPesquisa;
 	}
@@ -118,6 +88,24 @@ public class DataGridView implements Serializable {
 	public void setParametroPesquisa(String parametroPesquisa) {
 		this.parametroPesquisa = parametroPesquisa;
 	}
+
+	public ObraMB getObramb() {
+		return obramb;
+	}
+
+	public void setObramb(ObraMB obramb) {
+		this.obramb = obramb;
+	}
+	
+	public Obra getSelectedObra() {
+		return selectedObra;
+	}
+
+	public void setSelectedObra(Obra selectedObra) {
+		this.selectedObra = selectedObra;
+	}
+
+	
 
 
 

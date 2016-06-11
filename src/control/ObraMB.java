@@ -15,14 +15,14 @@ import org.primefaces.event.RowEditEvent;
 
 import exception.EditoraDaoException;
 import exception.GenericException;
-import exception.LivroDaoException;
+import exception.ObraDaoException;
 import model.Autor;
 import model.Editora;
-import model.Livro;
+import model.Obra;
 import persistence.AutorDaoImpl;
 import persistence.GenericDao;
-import persistence.LivroDao;
-import persistence.LivroDaoImpl;
+import persistence.ObraDao;
+import persistence.ObraDaoImpl;
 
 /**
  * 
@@ -31,14 +31,14 @@ import persistence.LivroDaoImpl;
 
 @ManagedBean
 @ApplicationScoped
-public class LivroMB extends GenericBean<Livro> {
+public class ObraMB extends GenericBean<Obra> {
 	private static final long serialVersionUID = -6883059046573310496L;
 
-	public LivroMB() {
-		super.listaPesquisa = new ArrayList<Livro>();
-		super.objAtual = new Livro();
-		super.dao = new LivroDaoImpl();
-		super.selectedObj = new Livro();
+	public ObraMB() {
+		super.listaPesquisa = new ArrayList<Obra>();
+		super.objAtual = new Obra();
+		super.dao = new ObraDaoImpl();
+		super.selectedObj = new Obra();
 	}
 
 	@Override
@@ -46,16 +46,16 @@ public class LivroMB extends GenericBean<Livro> {
 		String msg = "Erro ao cadastrar!";
 		try {
 			dao.inclui(objAtual);
-			msg = "Cadastro concluÃ­do com sucesso!";
+			msg = "Cadastro concluído com sucesso!";
 			FacesContext fc = FacesContext.getCurrentInstance();
 			fc.addMessage("", new FacesMessage(msg));
-		} catch (LivroDaoException lx) {
+		} catch (ObraDaoException lx) {
 			lx.printStackTrace();
 		}
 	}
 
 	@Override
-	public void altera(Livro selectedObj) throws GenericException, SQLException {
+	public void altera(Obra selectedObj) throws GenericException, SQLException {
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -72,7 +72,7 @@ public class LivroMB extends GenericBean<Livro> {
 	 * Exclui um determinado livro do banco de dados
 	 */
 	@Override
-	public void exclui(Livro selectedObj) throws GenericException, SQLException {
+	public void exclui(Obra selectedObj) throws GenericException, SQLException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			dao.exclui(selectedObj);
@@ -87,7 +87,7 @@ public class LivroMB extends GenericBean<Livro> {
 	 * Pesquisa Todos os livros na DB
 	 */
 	@Override
-	public List<Livro> pesquisar() throws GenericException, SQLException {
+	public List<Obra> pesquisar() throws GenericException, SQLException {
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
@@ -107,7 +107,7 @@ public class LivroMB extends GenericBean<Livro> {
 	 * Pesquisa um determinado livro pelo titulo
 	 * @return
 	 */
-	public List<Livro> pesquisarTitulo(){
+	public List<Obra> pesquisarTitulo(){
 		
 		return null;
 	}
@@ -117,7 +117,7 @@ public class LivroMB extends GenericBean<Livro> {
 	 * @return
 	 */
 	
-	public List<Livro> pesquisarEditora(){
+	public List<Obra> pesquisarEditora(){
 		
 		return null;
 	}
@@ -126,7 +126,7 @@ public class LivroMB extends GenericBean<Livro> {
 	 * Pesquisa livros por categorias
 	 * @return
 	 */
-	public List<Livro> pesquisarCategoria(){
+	public List<Obra> pesquisarCategoria(){
 		
 		return null;
 	}
@@ -135,41 +135,41 @@ public class LivroMB extends GenericBean<Livro> {
 	 * Pesquisa livros por autores
 	 * @return
 	 */
-	public List<Livro> pesquisarAutor(){
+	public List<Obra> pesquisarAutor(){
 		
 		return null;
 	}
 	
 	@Override
-	public List<Livro> getListaPesquisa() {
+	public List<Obra> getListaPesquisa() {
 		// TODO Auto-generated method stub
 		return listaPesquisa;
 	}
 
 	@Override
-	public void setListaPesquisa(List<Livro> listaPesquisa) {
+	public void setListaPesquisa(List<Obra> listaPesquisa) {
 		// TODO Auto-generated method stub
 		this.listaPesquisa = listaPesquisa;
 	}
 
-	public Livro setObjAtual() {
+	public Obra setObjAtual() {
 		return objAtual;
 	}
 
-	public void setObjAtual(Livro setObjAtual) {
+	public void setObjAtual(Obra setObjAtual) {
 		this.objAtual = setObjAtual;
 	}
 	
-	public Livro getSelectedObj() {
+	public Obra getSelectedObj() {
 		return selectedObj;
 	}
 
-	public void setSelectedObj(Livro selectedObj) {
+	public void setSelectedObj(Obra selectedObj) {
 		this.selectedObj = selectedObj;
 	}
 	
     public void onRowEdit(RowEditEvent event) throws GenericException, SQLException {
-    	altera( (Livro) event.getObject());
+    	altera( (Obra) event.getObject());
     	FacesMessage msg = new FacesMessage("Autor editado");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
