@@ -1,37 +1,17 @@
 package control;
 
-import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
 
 @ManagedBean
 @FacesValidator(value = "validaMB")
 @ViewScoped
-public class ValidacaoMB implements Validator {
+public class ValidacaoMB {
 
-	@Override
-	public void validate(FacesContext arg0, UIComponent arg1, Object valorTela) throws ValidatorException {
-		if (!validaCNPJ(String.valueOf(valorTela))) {
-			FacesMessage message = new FacesMessage();
-			message.setSeverity(FacesMessage.SEVERITY_ERROR);
-			message.setSummary(
-					ResourceBundle.getBundle(FacesContext.getCurrentInstance().getApplication().getMessageBundle())
-							.getString("erro.validacao.cnpj"));
-			throw new ValidatorException(message);
-		}
-	}
-
-	
-	
-	
-	
 	public boolean validarCampos(){
 
 	FacesContext context = FacesContext.getCurrentInstance();
@@ -65,4 +45,5 @@ public class ValidacaoMB implements Validator {
 	}
 	return false;
 	}
+
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import connection.ConnectionImpl;
 import connection.GenericConnection;
 import exception.GenericException;
-import model.Editora;
 import model.Obra;
 
 public class PesquisaDaoImpl implements PesquisaDao {
@@ -25,7 +24,7 @@ public class PesquisaDaoImpl implements PesquisaDao {
 		List<Obra> lista = new ArrayList<Obra>();
 		ObraDaoImpl lDao = new ObraDaoImpl();
 		
-		String query = "SELECT * FROM livro WHERE titulo like ?";
+		String query = "SELECT * FROM obra WHERE titulo like ?";
 
 		PreparedStatement ps = c.prepareStatement(query);
 		ps.setString(1, "%" + titulo + "%");
@@ -53,7 +52,7 @@ public class PesquisaDaoImpl implements PesquisaDao {
 	
 
 	/**
-	 * Pesquisa livros a partir de uma editora
+	 * Pesquisa obras a partir de uma editora
 	 * @param editora
 	 * @return
 	 * @throws GenericException

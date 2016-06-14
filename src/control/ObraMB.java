@@ -13,11 +13,9 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.event.RowEditEvent;
 
-import exception.EditoraDaoException;
 import exception.GenericException;
 import exception.ObraDaoException;
 import model.Autor;
-import model.Editora;
 import model.Obra;
 import persistence.AutorDaoImpl;
 import persistence.GenericDao;
@@ -26,7 +24,7 @@ import persistence.ObraDaoImpl;
 
 /**
  * 
- * @author Classe responsavel pelo controle do objeto livro
+ * @author Classe responsavel pelo controle do objeto obra
  */
 
 @ManagedBean
@@ -60,7 +58,7 @@ public class ObraMB extends GenericBean<Obra> {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			dao.altera(selectedObj);
-			context.addMessage(null, new FacesMessage("Livro Alterado com sucesso!"));
+			context.addMessage(null, new FacesMessage("Obra Alterada com sucesso!"));
 			pesquisar();
 			System.out.println("Alterado");
 		} catch (GenericException | SQLException e) {
@@ -69,14 +67,14 @@ public class ObraMB extends GenericBean<Obra> {
 	}
 	
 	/**
-	 * Exclui um determinado livro do banco de dados
+	 * Exclui uma determinada obra do banco de dados
 	 */
 	@Override
 	public void exclui(Obra selectedObj) throws GenericException, SQLException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		try {
 			dao.exclui(selectedObj);
-			context.addMessage(null, new FacesMessage("Livro Excluido com sucesso!"));
+			context.addMessage(null, new FacesMessage("Obra Excluida com sucesso!"));
 			pesquisar();
 		} catch (GenericException | SQLException e) {
 			e.printStackTrace();
@@ -84,7 +82,7 @@ public class ObraMB extends GenericBean<Obra> {
 	}
 
 	/**
-	 * Pesquisa Todos os livros na DB
+	 * Pesquisa Todos os obras na DB
 	 */
 	@Override
 	public List<Obra> pesquisar() throws GenericException, SQLException {
@@ -104,7 +102,7 @@ public class ObraMB extends GenericBean<Obra> {
 
 	
 	/**
-	 * Pesquisa um determinado livro pelo titulo
+	 * Pesquisa um determinado Obra pelo titulo
 	 * @return
 	 */
 	public List<Obra> pesquisarTitulo(){
@@ -113,26 +111,7 @@ public class ObraMB extends GenericBean<Obra> {
 	}
 	
 	/**
-	 * Pesquisa uma determinada relação de livros com uma editora
-	 * @return
-	 */
-	
-	public List<Obra> pesquisarEditora(){
-		
-		return null;
-	}
-	
-	/**
-	 * Pesquisa livros por categorias
-	 * @return
-	 */
-	public List<Obra> pesquisarCategoria(){
-		
-		return null;
-	}
-	
-	/**
-	 * Pesquisa livros por autores
+	 * Pesquisa Obras por autores
 	 * @return
 	 */
 	public List<Obra> pesquisarAutor(){
@@ -152,7 +131,7 @@ public class ObraMB extends GenericBean<Obra> {
 		this.listaPesquisa = listaPesquisa;
 	}
 
-	public Obra setObjAtual() {
+	public Obra getObjAtual() {
 		return objAtual;
 	}
 

@@ -57,7 +57,7 @@ A Gioconda ou ainda Mona Lisa del Giocondo é a mais notável e conhecida obra de 
 
 insert into obraautor values (1,1),(2,2)
 
-select* from obra
+select * from obra
 select * from autor
 
 -------------------------

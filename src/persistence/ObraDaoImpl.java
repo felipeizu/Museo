@@ -9,7 +9,6 @@ import java.util.List;
 
 import connection.ConnectionImpl;
 import connection.GenericConnection;
-import exception.EditoraDaoException;
 import exception.GenericException;
 import model.Autor;
 import model.Obra;
@@ -23,7 +22,6 @@ import model.Obra;
 public class ObraDaoImpl implements ObraDao {
 	private Connection c;
 	private AutorDao autorDao;
-	private EditoraDao editoraDao;
 
 	public ObraDaoImpl() {
 		GenericConnection gc = new ConnectionImpl();
@@ -37,16 +35,11 @@ public class ObraDaoImpl implements ObraDao {
 		PreparedStatement ps = c.prepareStatement(query);
 
 		// ps.setInt(1, l.getAutor().getId());
-		ps.setInt(1, l.getEditora().getId());
 		ps.setString(2, l.getTitulo());
-		ps.setString(3, l.getIsbn());
-		ps.setInt(4, l.getPaginas());
-		ps.setInt(5, l.getEdicao());
-		ps.setString(6, l.getTipoCapa());
 		ps.setInt(7, l.getAno());
-		ps.setString(8, l.getAssunto());
-		ps.setString(9, l.getIdioma());
-		ps.setDouble(10, l.getPreco());
+		ps.setString(8, l.getDescricao());
+		ps.setString(9, l.getCategoria());
+		ps.setString(10, l.getDimensoes());
 		ps.setString(11, l.getImagem());
 		ps.execute();
 		ps.close();
@@ -56,35 +49,27 @@ public class ObraDaoImpl implements ObraDao {
 	@Override
 	public List<Obra> pesquisa(Obra l) throws GenericException, SQLException {
 		List<Obra> lista = new ArrayList<Obra>();
-		String query = "SELECT * FROM livro";
+		String query = "SELECT * FROM obra";
 
 		PreparedStatement ps = c.prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 
 		autorDao = new AutorDaoImpl();
-		editoraDao = new EditoraDaoImpl();
 
 		while (rs.next()) {
 			Obra li = new Obra();
 			li.setId(rs.getInt("id"));
 			li.setAutor(pesquisaInnerAutor(li));
-			li.setEditora(editoraDao.pesquisaId(rs.getInt("ideditora")));
 			li.setTitulo(rs.getString("titulo"));
-			li.setIsbn(rs.getString("isbn"));
-			li.setPaginas(rs.getInt("paginas"));
-			li.setEdicao(rs.getInt("edicao"));
-			li.setTipoCapa(rs.getString("tipocapa"));
 			li.setAno(rs.getInt("ano"));
-			li.setAssunto(rs.getString("assunto"));
-			li.setIdioma(rs.getString("idioma"));
-			li.setPreco(rs.getDouble("preco"));
+			li.setDescricao(rs.getString("descricao"));
+			li.setCategoria(rs.getString("idioma"));
+			li.setDimensoes(rs.getString("dimensoes"));
 			li.setImagem(rs.getString("imagem"));
-			li.setResumo(rs.getString("resumo"));
-			li.setSumario(rs.getString("sumario"));
 
 			lista.add(li);
 		}
-		System.out.println("pesquisados livros");
+		System.out.println("Obras pesquisadas");
 		ps.close();
 
 		return lista;
@@ -93,14 +78,14 @@ public class ObraDaoImpl implements ObraDao {
 	public List<Autor> pesquisaInnerAutor(Obra li) throws SQLException {
 
 		List<Autor> lista = new ArrayList<Autor>();
-		String query = "SELECT livro.id, livro.titulo, autor.id as idautor, autor.nome as nome, autor.datanasc as nasc, autor.biografia "
-				+ "from livro "
-				+ "inner join livroautor "
-				+ "on livro.id = livroautor.idlivro "
+		String query = "SELECT obra.id, obra.titulo, autor.id as idautor, autor.nome as nome, autor.datanasc as nasc, autor.biografia "
+				+ "from obra "
+				+ "inner join obraautor "
+				+ "on obra.id = obraautor.idobra "
 				+ "inner join autor "
-				+ "on autor.id = livroautor.idautor "
-				+ "where livro.id = ? "
-				+ "order by livro.id" ;
+				+ "on autor.id = obraautor.idautor "
+				+ "where obra.id = ? "
+				+ "order by obra.id" ;
 
 		PreparedStatement ps = c.prepareStatement(query);
 		ps.setInt(1, li.getId());
@@ -137,65 +122,23 @@ public class ObraDaoImpl implements ObraDao {
 		return lista;
 	}
 
-	public List<Obra> pesquisaEditora(Obra livro) throws GenericException, SQLException {
-		List<Obra> lista = new ArrayList<Obra>();
-
-		String query = "select liv.id, liv.titulo " + "from livro liv " + "inner join editora ed"
-				+ " on liv.ideditora = ed.id " + "where ed.id = ? " + "order by ed.id";
-
-		PreparedStatement ps = c.prepareStatement(query);
-		ps.setString(1, "%" + livro.getTitulo() + "%");
-
-		ResultSet rs = ps.executeQuery();
-
-		autorDao = new AutorDaoImpl();
-		editoraDao = new EditoraDaoImpl();
-
-		while (rs.next()) {
-			Obra li = new Obra();
-			li.setId(rs.getInt("id"));
-			// li.setAutor(autorDao.pesquisaId(rs.getInt("idautor")));
-			li.setEditora(editoraDao.pesquisaId(rs.getInt("ideditora")));
-			li.setTitulo(rs.getString("titulo"));
-			li.setIsbn(rs.getString("isbn"));
-			li.setPaginas(rs.getInt("paginas"));
-			li.setEdicao(rs.getInt("edicao"));
-			li.setTipoCapa(rs.getString("tipocapa"));
-			li.setAno(rs.getInt("ano"));
-			li.setAssunto(rs.getString("assunto"));
-			li.setIdioma(rs.getString("idioma"));
-			li.setPreco(rs.getDouble("preco"));
-			li.setImagem(rs.getString("imagem"));
-
-			lista.add(li);
-		}
-		ps.close();
-
-		return lista;
-	}
-	// pesquisaCategoria
-	// pesquisaAutor
-
 	@Override
-	public void altera(Obra l) throws EditoraDaoException, SQLException {
-		String sql = "UPDATE livro SET idautor = ?, ideditora = ?, titulo = ?,"
-				+ "isbn = ?, paginas = ?, edicao = ?, tipoca = ?, ano = ?," + "assunto = ?, idioma = ?, preco = ?"
+	public void altera(Obra l) throws GenericException, SQLException {
+		String sql = "UPDATE obra SET idautor = ?, titulo = ?,"
+				+ "ano = ?," + "descricao = ?, categoria = ?, dimensoes = ?"
 				+ "WHERE id = ?";
 
 		PreparedStatement ps = c.prepareStatement(sql);
 
 		// ps.setInt(1, l.getAutor().getId());
-		ps.setInt(2, l.getEditora().getId());
-		ps.setString(3, l.getTitulo());
-		ps.setString(4, l.getIsbn());
-		ps.setInt(5, l.getPaginas());
-		ps.setInt(6, l.getEdicao());
-		ps.setString(7, l.getTipoCapa());
-		ps.setInt(8, l.getAno());
-		ps.setString(9, l.getAssunto());
-		ps.setString(10, l.getIdioma());
-		ps.setDouble(11, l.getPreco());
-		ps.setInt(12, l.getId());
+		ps.setString(2, l.getTitulo());
+		ps.setInt(7, l.getAno());
+		ps.setString(8, l.getDescricao());
+		ps.setString(9, l.getCategoria());
+		ps.setString(10, l.getDimensoes());
+		ps.setString(11, l.getImagem());
+		ps.execute();
+		ps.close();
 
 		ps.execute();
 		ps.close();
@@ -203,7 +146,7 @@ public class ObraDaoImpl implements ObraDao {
 
 	@Override
 	public void exclui(Obra l) throws GenericException, SQLException {
-		String query = "DELETE livro where id = ?";
+		String query = "DELETE obra where id = ?";
 		PreparedStatement ps = c.prepareStatement(query);
 
 		ps.setInt(1, l.getId());

@@ -73,6 +73,14 @@ public class DataGridView implements Serializable {
 		this.obras = obras;
 	}
 
+	public Obra getSelectedObra() {
+		return selectedObra;
+	}
+
+	public void setSelectedObra(Obra selectedObra) {
+		this.selectedObra = selectedObra;
+	}
+
 	public String getBusca() {
 		return busca;
 	}
@@ -96,17 +104,6 @@ public class DataGridView implements Serializable {
 	public void setObramb(ObraMB obramb) {
 		this.obramb = obramb;
 	}
-	
-	public Obra getSelectedObra() {
-		return selectedObra;
-	}
-
-	public void setSelectedObra(Obra selectedObra) {
-		this.selectedObra = selectedObra;
-	}
-
-	
-
 
 
 }

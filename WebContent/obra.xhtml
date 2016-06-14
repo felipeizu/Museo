@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Obra</title>
+	<link rel="stylesheet" type="text/css" href="css\design.css" />
+</h:head>
+<h:body>
+
+	<div id="obra" class="formulario">
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+			<h:outputLabel>
+			<div class="bordo tam-bordo">
+				<h1 class="letrabranca">Dados do Obra</h1>
+			</div>
+			</h:outputLabel>
+
+			<!-- Campos -->
+			<h:panelGrid id="grid" columns="3" cellpadding="5">
+
+				<!-- <p:outputLabel for="id" value="ID:" />
+				<p:inputText id="id" value="#{obraMB.objAtual.id}" disabled="true" />
+				<p:message for="id" /> -->
+
+				<p:outputLabel for="titulo" value="Titulo:" />
+				<p:inputText id="titulo" value="#{obraMB.objAtual.titulo}" />
+				<p:message for="titulo" />
+
+				<p:outputLabel for="ano" value="Ano de Criação" />
+				<p:inputText id="ano" value="#{obraMB.objAtual.ano}" />
+				<p:message for="ano" />
+				
+				<p:outputLabel for="descricao" value="Descrição:" />
+				<p:inputText id="descricao" value="#{obraMB.objAtual.descricao}" />
+				<p:message for="descricao" />
+				
+				<p:outputLabel for="dimensoes" value="Dimensões:" />
+				<p:inputText id="dimensoes" value="#{obraMB.objAtual.dimensoes}" />
+				<p:message for="dimensoes" />
+
+				<p:outputLabel for="imagem" value="Imagem:" />
+				<p:inputText id="imagem" value="#{obraMB.objAtual.imagem}" />
+				<p:message for="imagem" />
+
+				<p:outputLabel for="autor" value="Autor:" />
+				<p:inputText id="autor" value="#" />
+				<p:message for="autor" />
+
+				<p:outputLabel for="categoria" value="Categoria:" />
+				<p:inputText id="categoria" value="#" />
+				<p:message for="categoria" />
+
+			</h:panelGrid>
+
+			<!-- Botoes -->
+			<p:commandButton actionListener="#{obraMB.inclui()}" value="Incluir"
+				update="growl" icon="ui-icon-plusthick" id="inclui"
+				ajax="updade grid">
+			</p:commandButton>
+
+			<p:commandButton actionListener="#{obraMB.pesquisar()}"
+				value="Pesquisar" update="growl" icon="ui-icon-search"
+				id="pesquisar" ajax="updade grid">
+			</p:commandButton>
+
+
+
+			<h:panelGrid id="grid2"
+				rendered="#{obraMB.listaPesquisa.size() > 0}">
+				
+
+				<!-- Lista de pesquisados -->
+				<p:dataTable id="tabl" var="obra" value="#{obraMB.listaPesquisa}"
+					editable="true">
+
+					<f:facet name="header">
+                     Obras Pesquisados
+                    </f:facet>
+
+					<!-- Controle de tupla  -->
+					<p:ajax event="rowEdit" listener="#{obraMB.onRowEdit}"
+						update=":form:msgs" />
+					<p:ajax event="rowEditCancel" listener="#{obraMB.onRowCancel}"
+						update=":form:msgs" />
+
+					<p:column headerText="Titulo">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.titulo}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.titulo}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+			
+					<p:column headerText="Ano">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.ano}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.ano}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Descrição">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.descricao}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.descricao}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Dimensões">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.dimensoes}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.dimensoes}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column headerText="Imagem">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.imagem}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.imagem}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+					
+					<p:column headerText="Categoria">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{obra.categoria}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{obra.categoria}" style="width:100%" />
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+
+					<p:column style="width:35px" headerText="Alt">
+						<p:rowEditor update="tabl" />
+					</p:column>
+
+					<p:column headerText="Exclui">
+						<p:commandButton actionListener="#{obraMB.exclui(obra)}"
+							value="Exclui" update="form" icon="ui-icon-plusthick"
+							id="btnExclui">
+
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</h:panelGrid>
+
+
+		</h:form>
+	</div>
+</h:body>
+</html>
