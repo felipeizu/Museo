@@ -100,7 +100,7 @@ as
 	on ob.id = oa.idautor
 	inner join autor aut
 	on aut.id = oa.idautor
-	group by ob.id, ob.titulo, ob.ano, ob.dimensao, ob.imagem, aut.nome
+	group by ob.id, ob.titulo, ob.ano, ob.dimensao, ob.imagem, aut.nome, ob.descrica
 
 select * from v_pesquisaPorAutor where nome like '%%'
 drop view v_pesquisaPorAutor
