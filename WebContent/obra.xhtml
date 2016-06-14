@@ -50,11 +50,11 @@
 				<p:message for="imagem" />
 
 				<p:outputLabel for="autor" value="Autor:" />
-				<p:inputText id="autor" value="#" />
+				<p:inputText id="autor" value="#{obraMB.objAtual.autor}" />
 				<p:message for="autor" />
 
 				<p:outputLabel for="categoria" value="Categoria:" />
-				<p:inputText id="categoria" value="#" />
+				<p:inputText id="categoria" value="#{obraMB.objAtual.categoria}" />
 				<p:message for="categoria" />
 
 			</h:panelGrid>
@@ -73,7 +73,7 @@
 
 
 			<h:panelGrid id="grid2"
-				rendered="#{obraMB.listaPesquisa.size() > 0}">
+				rendered="#{obraMB.listaPesquisa.size() >0}">
 				
 
 				<!-- Lista de pesquisados -->
