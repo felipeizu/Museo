@@ -51,7 +51,7 @@ INSERT INTO obra VALUES ('David', '1504',
 'escultura em marmore de Carrara', 'David ou Davi é uma das esculturas mais famosas do artista renascentista Michelangelo. 
 O trabalho retrata o herói bíblico com realismo anatômico impressionante, sendo considerada uma das mais importantes obras do Renascimento.', 
 'David.JPG', '5,17m');
-INSERT INTO obra VALUES ('Mona lisa', '1517', 'Mona Lisa também conhecida como 
+INSERT INTO obra VALUES ('Mona lisa', '1517','pintura', 'Mona Lisa também conhecida como 
 A Gioconda ou ainda Mona Lisa del Giocondo é a mais notável e conhecida obra de Leonardo da Vinci, um dos mais eminentes homens do Renascimento italiano.', 
 'Monalisa.JPG', '77 x 53 cm');
 
