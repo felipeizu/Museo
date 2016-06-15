@@ -29,7 +29,7 @@ public class ConnectionImpl implements GenericConnection {
 			con = DriverManager.getConnection(
 					"jdbc:jtds:sqlserver://localhost:1433;"
 							+"DatabaseName=museudigital;namedPipe=true",
-							"sa", "senha");
+							"usuario", "123456");
 			System.out.println("CONECTADO");
 		} catch (ClassNotFoundException e) {
 			System.out.println("classe nao encontrada");

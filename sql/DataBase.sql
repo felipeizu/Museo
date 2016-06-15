@@ -17,28 +17,18 @@ primary key(id)
 )
 
 
---primary key(cnpj), --verificar
-primary key(id)
-)
-
-
+drop table obra
 create table obra(
 id int not null identity,
+idautor int not null, 
 titulo varchar(30),
 ano decimal (4),
 categoria varchar(50),
 descricao varchar(max),
 imagem varchar(max),
 dimensao varchar(15),
+foreign key (idautor) references autor(id),
 primary key(id)
-)
-
-
-create table obraautor(
-idobra int not null,
-idautor int not null,
-foreign key (idobra) references obra(id),
-foreign key (idautor) references autor(id)
 )
 
 
@@ -47,15 +37,15 @@ INSERT INTO autor VALUES('Leonardo da Vinci', '15/04/1452', '02/05/1519', 'Amboi
 insert into autor values('Michelangelo', '06/03/1475', '18/02/1564', 'roma, italia' , 'cheirava tudo, parecia o vocalista do charlie brown jr. ');
 select * from autor
 
-INSERT INTO obra VALUES ('David', '1504', 
+INSERT INTO obra VALUES (01,'David', '1504', 
 'escultura em marmore de Carrara', 'David ou Davi é uma das esculturas mais famosas do artista renascentista Michelangelo. 
 O trabalho retrata o herói bíblico com realismo anatômico impressionante, sendo considerada uma das mais importantes obras do Renascimento.', 
 'David.JPG', '5,17m');
-INSERT INTO obra VALUES ('Mona lisa', '1517','pintura', 'Mona Lisa também conhecida como 
+INSERT INTO obra VALUES (02,'Mona lisa', '1517','pintura', 'Mona Lisa também conhecida como 
 A Gioconda ou ainda Mona Lisa del Giocondo é a mais notável e conhecida obra de Leonardo da Vinci, um dos mais eminentes homens do Renascimento italiano.', 
 'Monalisa.JPG', '77 x 53 cm');
 
-insert into obraautor values (1,1),(2,2)
+
 
 select * from obra
 select * from autor
@@ -94,13 +84,12 @@ order by ob.id
 --VIEW RESPONSAVEL PELA PESQUISA DE OBRA ATRAVEZ DE UM AUTOR
 create view v_pesquisaPorAutor
 as
-	select aut.nome, ob.id, ob.titulo, ob.ano, ob.descricao, ob.imagem
-	from obra ob 
-	inner join obraautor oa
-	on ob.id = oa.idautor
-	inner join autor aut
-	on aut.id = oa.idautor
-	group by ob.id, ob.titulo, ob.ano, ob.dimensao, ob.imagem, aut.nome, ob.descrica
+	select a.nome, o.id, o.titulo, o.ano, o.categoria, o.descricao, o.imagem, o.dimensao
+	from obra o
+	inner join autor a
+	on o.idautor = a.id
+	group by o.titulo, o.ano, o.categoria, o.descricao, o.imagem, o.dimensao, o.id, a.nome
+	--
 
 select * from v_pesquisaPorAutor where nome like '%%'
 drop view v_pesquisaPorAutor
