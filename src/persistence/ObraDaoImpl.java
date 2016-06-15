@@ -13,11 +13,7 @@ import exception.GenericException;
 import model.Autor;
 import model.Obra;
 
-/**
- * 
- * @author Hury
- *
- */
+
 
 public class ObraDaoImpl implements ObraDao {
 	private Connection c;
@@ -31,16 +27,17 @@ public class ObraDaoImpl implements ObraDao {
 	@Override
 	public void inclui(Obra l) throws GenericException, SQLException {
 
-		String query = "INSERT INTO autor VALUES (?,?,?,?,?,?,?,?,?,?,?)"; // ?
+		String query = "INSERT INTO autor VALUES (?,?,?,?,?,?,?)"; // ?
 		PreparedStatement ps = c.prepareStatement(query);
 
-		// ps.setInt(1, l.getAutor().getId());
+		
+		ps.setInt(1, l.getAutor());
 		ps.setString(2, l.getTitulo());
-		ps.setInt(7, l.getAno());
-		ps.setString(8, l.getDescricao());
-		ps.setString(9, l.getCategoria());
-		ps.setString(10, l.getDimensoes());
-		ps.setString(11, l.getImagem());
+		ps.setInt(3, l.getAno());
+		ps.setString(4, l.getCategoria());
+		ps.setString(5, l.getDescricao());
+		ps.setString(6, l.getImagem());
+		ps.setString(7, l.getDimensoes());
 		ps.execute();
 		ps.close();
 
@@ -59,11 +56,11 @@ public class ObraDaoImpl implements ObraDao {
 		while (rs.next()) {
 			Obra li = new Obra();
 			li.setId(rs.getInt("id"));
-			li.setAutor(pesquisaInnerAutor(li));
+			li.setAutor(rs.getInt("idautor"));
 			li.setTitulo(rs.getString("titulo"));
 			li.setAno(rs.getInt("ano"));
 			li.setDescricao(rs.getString("descricao"));
-			li.setCategoria(rs.getString("idioma"));
+			li.setCategoria(rs.getString("categoria"));
 			li.setDimensoes(rs.getString("dimensoes"));
 			li.setImagem(rs.getString("imagem"));
 
@@ -130,13 +127,13 @@ public class ObraDaoImpl implements ObraDao {
 
 		PreparedStatement ps = c.prepareStatement(sql);
 
-		// ps.setInt(1, l.getAutor().getId());
+		ps.setInt(1, l.getAutor());
 		ps.setString(2, l.getTitulo());
-		ps.setInt(7, l.getAno());
-		ps.setString(8, l.getDescricao());
-		ps.setString(9, l.getCategoria());
-		ps.setString(10, l.getDimensoes());
-		ps.setString(11, l.getImagem());
+		ps.setInt(3, l.getAno());
+		ps.setString(4, l.getDescricao());
+		ps.setString(5, l.getCategoria());
+		ps.setString(6,l.getDimensoes());
+		ps.setString(7, l.getImagem());
 		ps.execute();
 		ps.close();
 

@@ -34,7 +34,7 @@ public class PesquisaDaoImpl implements PesquisaDao {
 		while (rs.next()) {
 			Obra ob = new Obra();
 			ob.setId(rs.getInt("id"));
-			ob.setAutor(lDao.pesquisaInnerAutor(ob));
+			ob.setAutor(rs.getInt("idautor"));
 			ob.setCategoria(rs.getString("categoria"));
 			ob.setDimensoes(rs.getString("dimensoes"));
 			ob.setTitulo(rs.getString("titulo"));
@@ -72,7 +72,7 @@ public class PesquisaDaoImpl implements PesquisaDao {
 		while (rs.next()) {
 			Obra ob = new Obra();
 			ob.setId(rs.getInt("id"));
-			ob.setAutor(lDao.pesquisaInnerAutor(ob));
+			ob.setAutor(rs.getInt("idautor"));
 			ob.setCategoria(rs.getString("categoria"));
 			ob.setDimensoes(rs.getString("dimensoes"));
 			ob.setTitulo(rs.getString("titulo"));
